@@ -16,43 +16,38 @@ export const authController = {
                     password: hashedPassword
                 }
             })
-            if (!newUser) {
-                return res.status(401).json({ message: 'User created unsuccessfully!' })
-
-            }
             res.status(201).json({ message: 'User created successfully!' })
         } catch (error) {
-            res.status(401).json({ message: error.message })
+            res.status(401).json({ message: 'Failed register!' })
         }
     },
     login: async (req, res) => {
         try {
             const { username, password } = req.body
-            console.log('🚀 ~ login: ~ username, password:', username, password)
             const user = await prisma.user.findUnique({
                 where: { username }
             })
-            console.log('🚀 ~ login: ~ user:', user)
             if (!user) {
                 return res.status(401).json({ message: 'User not found!' })
             }
             const isPasswordValid = await bcrypt.compare(password, user.password)
-            console.log('🚀 ~ login: ~ isPasswordValid:', isPasswordValid)
             if (!isPasswordValid) {
                 return res.status(401).json({ message: 'Username or password incorrect!' })
             }
             const age = 1000 * 60 * 60 * 24 * 7
-
-            console.log('JWT Secret Key:', env.JWT_SECRET_KEY);
+            const { password: userPasssword, ...userInfor } = user
             const token = jwt.sign(
-                { id: user?.id },
+                {
+                    id: user?.id,
+                    isAdmin: true
+                },
                 env.JWT_SECRET_KEY,
                 { expiresIn: '1h' }
             );
             res.cookie('token', token, {
                 httpOnly: true,
                 maxAge: age
-            }).status(200).json({ message: 'Login success!' })
+            }).status(200).json({ message: 'Login success!', data: userInfor })
         } catch (error) {
             return res.status(401).json({ message: 'Failed to login' })
         }
