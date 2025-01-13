@@ -2,24 +2,29 @@
 import { apiRequest } from './apiRequest'
 
 export const userService = {
-    getUsers: async () => {
+    getPosts: async () => {
         // eslint-disable-next-line no-undef
-        const response = await apiRequest.get(`/user/`)
+        const response = await apiRequest.get(`/posts/`)
         return response.data
     },
-    getUserById: async (id) => {
+    addPost: async (data) => {
         // eslint-disable-next-line no-undef
-        const response = await apiRequest.get(`/user/${id}`)
+        const response = await apiRequest.get(`/posts/`)
         return response.data
     },
-    updateUser: async (id, data) => {
+    getPostById: async (id) => {
         // eslint-disable-next-line no-undef
-        const response = await apiRequest.put(`/user/${id}`, data)
+        const response = await apiRequest.get(`/posts/${id}`)
         return response.data
     },
-    deleteUser: async (id) => {
+    updatePost: async (id, data) => {
         // eslint-disable-next-line no-undef
-        const response = await apiRequest.delete(`/user/${id}`)
+        const response = await apiRequest.put(`/posts/${id}`, data)
+        return response.data
+    },
+    deletePost: async (id) => {
+        // eslint-disable-next-line no-undef
+        const response = await apiRequest.delete(`/posts/${id}`)
         return response.data
     },
 
