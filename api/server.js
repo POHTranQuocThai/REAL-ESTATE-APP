@@ -14,7 +14,7 @@ app.use(cors({ origin: env.LOCAL_HOST_CLIENT, credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth', authRouter)
-// app.use('/api/post', postRouter)
+app.use('/api/posts', postRouter)
 app.use('/api/user', userRouter)
 app.use('/api/test', testRouter)
 

@@ -1,6 +1,5 @@
 
 import { apiRequest } from './apiRequest'
-
 export const userService = {
     getUsers: async () => {
         // eslint-disable-next-line no-undef
@@ -22,5 +21,4 @@ export const userService = {
         const response = await apiRequest.delete(`/user/${id}`)
         return response.data
     },
-
 }
